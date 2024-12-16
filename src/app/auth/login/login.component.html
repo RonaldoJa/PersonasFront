@@ -1,0 +1,71 @@
+<!-- Fondo Azul -->
+<div style="background-color: #0D92F4;" class="absolute top-0 left-0 bottom-0 leading-5 h-full w-full overflow-hidden">
+</div>
+
+<!-- Contenedor Principal -->
+<div class="relative min-h-screen flex flex-col-reverse sm:flex-row justify-center bg-transparent rounded-3xl shadow-xl p-6 sm:p-12">
+  <!-- Sección del Logo -->
+  <div class="flex flex-col items-center lg:items-start justify-center lg:px-14 sm:max-w-4xl xl:max-w-md z-10 sm:order-1 order-2">
+    <div class="self-center lg:self-start flex flex-col text-center lg:text-left text-gray-300 mt-6 sm:mt-0">
+      <h3 style="color: #FFFFFF;" class="my-3 font-semibold text-4xl lg:text-4xl sm:text-3xl text-center">
+        Gestion de
+      </h3>
+      <h1 style="color: #FFD628;" class="pr-3 text-sm sm:text-xl lg:text-xl">
+        Personas
+      </h1>
+    </div>
+  </div>
+
+  <!-- Sección del Formulario -->
+  <div class="flex justify-center items-center self-center z-10 sm:order-2 order-1">
+    <div class="p-8 sm:p-10 bg-white mx-auto rounded-3xl w-full sm:w-96 max-w-lg shadow-lg">
+      <div class="mb-7">
+        <h3 style="color: #0D92F4;" class="font-semibold text-2xl text-center w-full text-gray-800">Login</h3>
+      </div>
+
+     <!-- Formulario -->
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="space-y-6 w-full">
+            <!-- Usuario -->
+            <div>
+            <div class="flex items-center bg-white p-3 rounded-full shadow-md w-full">
+                <input
+                style="background-color: transparent;"
+                type="text"
+                id="usuario"
+                name="usuario"
+                [(ngModel)]="credentials.usuario"
+                required
+                #usuarioInput="ngModel"
+                placeholder="Usuario"
+                class="flex-grow bg-transparent outline-none text-gray-500 px-4 py-2 placeholder-gray-400"
+                />
+            </div>
+            <div *ngIf="usuarioInput.invalid && (usuarioInput.dirty || usuarioInput.touched)" class="error-message text-sm text-red-500 mt-1 ml-2">
+                <div *ngIf="usuarioInput.errors?.['required']">El usuario es requerido.</div>
+            </div>
+            </div>
+        <!-- Password -->
+        <div>
+          <div class="flex items-center bg-white p-3 rounded-full shadow-md w-full">
+            <input type="password" id="password" name="password" [(ngModel)]="credentials.password" required
+              #passwordInput="ngModel" placeholder="Contraseña"
+              class="flex-grow bg-transparent outline-none text-gray-500 px-4 py-2 placeholder-gray-400" />
+          </div>
+          <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)"
+            class="error-message text-sm text-red-500 mt-1 ml-2">
+            <div *ngIf="passwordInput.errors?.['required']">La contraseña es requerida.</div>
+          </div>
+        </div>
+
+        <!-- Botón de Enviar -->
+        <div>
+          <button type="submit" [disabled]="!loginForm.valid"
+            class="w-full flex justify-center bg-blue-700 hover:bg-blue-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold focus:outline-none focus:shadow-outline shadow-lg cursor-pointer transition ease-in duration-300">
+            Ingresar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

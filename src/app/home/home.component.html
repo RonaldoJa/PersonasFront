@@ -1,0 +1,126 @@
+<div class="py-5">
+    <!-- Contenedor Responsivo -->
+    <div class="flex flex-wrap gap-4 mb-6 items-center justify-between">
+        <button
+            class="flex items-center gap-2 px-4 py-2 text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700 focus:outline-none transition duration-300 w-full sm:w-auto text-center justify-center">
+            <span (click)="openModal()" class="text-sm font-semibold">Agregar Persona</span>
+        </button>
+
+    </div>
+
+    <!-- Contenedor de tabla responsiva -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto">
+                <thead class="bg-blue-500 text-white">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-sm font-medium uppercase tracking-wider whitespace-nowrap">
+                            UsuarioId</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium uppercase tracking-wider whitespace-nowrap">
+                            Usuario</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium uppercase tracking-wider whitespace-nowrap">
+                            Fecha de Creación</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium uppercase tracking-wider whitespace-nowrap">
+                            PersonaId</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium uppercase tracking-wider whitespace-nowrap">
+                            Nombres</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium uppercase tracking-wider whitespace-nowrap">
+                            Apellidos</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium uppercase tracking-wider whitespace-nowrap">
+                            Identificacion</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium uppercase tracking-wider whitespace-nowrap">
+                            Email</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium uppercase tracking-wider whitespace-nowrap">
+                            Tipo Identificacion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let personUser of paginatedData"
+                        class="odd:bg-gray-50 even:bg-gray-100 hover:bg-gray-200">
+                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">{{ personUser.usuarioId }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">{{ personUser.usuario }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">{{ formatDate(personUser.fechaCreacionUsuario) }}
+                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">{{ personUser.personaId }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">{{ personUser.nombres }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">{{ personUser.apellidos }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">{{ personUser.numeroIdentificacion }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">{{ personUser.email }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">{{ personUser.tipoIdentificacion }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="flex justify-center items-center mt-6 space-x-2">
+        <button
+            class="px-4 py-2 text-sm font-medium text-gray-500 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
+            [disabled]="currentPage === 1"
+            [ngClass]="currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''"
+            (click)="prevPage()">
+            &laquo; Anterior
+        </button>
+        <button *ngFor="let page of [].constructor(totalPages); let i = index"
+            class="px-4 py-2 text-sm font-medium border rounded-md transition-colors duration-300"
+            [ngClass]="currentPage === i + 1 
+            ? 'bg-blue-500 text-white border-blue-500' 
+            : 'bg-gray-100 text-gray-500 border-gray-300 hover:bg-gray-200 hover:text-gray-700'"
+            (click)="goToPage(i + 1)">
+            {{ i + 1 }}
+        </button>
+        <button
+            class="px-4 py-2 text-sm font-medium text-gray-500 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"
+            [disabled]="currentPage === totalPages"
+            [ngClass]="currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''" 
+            (click)="nextPage()">
+            Siguiente &raquo;
+        </button>
+    </div>
+</div>
+
+<div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+      <h2 class="text-lg font-semibold mb-4">Agregar Persona</h2>
+
+      <!-- Formulario para agregar persona -->
+      <form [formGroup]="addPersonForm" (ngSubmit)="addPersonUser()">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="nombres" class="block text-sm font-medium text-gray-700">Nombres</label>
+            <input id="nombres" formControlName="nombres" class="mt-1 block w-full rounded-md shadow-sm border-gray-300">
+          </div>
+          <div>
+            <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
+            <input id="apellidos" formControlName="apellidos" class="mt-1 block w-full rounded-md shadow-sm border-gray-300">
+          </div>
+          <div>
+            <label for="numeroIdentificacion" class="block text-sm font-medium text-gray-700">Identificación</label>
+            <input id="numeroIdentificacion" formControlName="numeroIdentificacion" class="mt-1 block w-full rounded-md shadow-sm border-gray-300">
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input id="email" formControlName="email" class="mt-1 block w-full rounded-md shadow-sm border-gray-300">
+          </div>
+          <div>
+            <label for="tipoIdentificacion" class="block text-sm font-medium text-gray-700">Tipo de Identificación</label>
+            <select id="tipoIdentificacion" formControlName="tipoIdentificacion" class="mt-1 block w-full rounded-md shadow-sm border-gray-300">
+              <option value="" disabled selected>Seleccionar...</option>
+              <option value="DNI">DNI</option>
+              <option value="Pasaporte">Pasaporte</option>
+            </select>
+          </div>
+          <div>
+            <label for="usuario" class="block text-sm font-medium text-gray-700">Usuario</label>
+            <input id="usuario" formControlName="usuario" class="mt-1 block w-full rounded-md shadow-sm border-gray-300">
+          </div>
+          <div>
+            <label for="pass" class="block text-sm font-medium text-gray-700">Contraseña</label>
+            <input id="pass" type="password" formControlName="pass" class="mt-1 block w-full rounded-md shadow-sm border-gray-300">
+          </div>
+        </div>
+        <button type="submit" [disabled]="addPersonForm.invalid" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg">Agregar</button>
+        <button type="button" (click)="closeModal()" class="mt-4 ml-2 bg-gray-300 text-white px-4 py-2 rounded-lg">Cancelar</button>
+      </form>
+    </div>
+  </div>
