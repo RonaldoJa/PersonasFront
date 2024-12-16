@@ -14,4 +14,4 @@ https://github.com/RonaldoJa/PersonasDB
 
 # Proyecton Back:
 
-[https://github.com/RonaldoJa/PersonasFront](https://github.com/RonaldoJa/PersonaPrueba/)
+[https://github.com/RonaldoJa/PersonaPrueba](https://github.com/RonaldoJa/PersonaPrueba/)
